@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CleanArchitecture.Common\CleanArchitecture.Common.csproj" />
+    <ProjectReference Include="..\CleanArchitecture.Percistence\CleanArchitecture.Percistence.csproj" />
+    <ProjectReference Include="..\CreanArchitecture.Application\CreanArchitecture.Application.csproj" />
+    <ProjectReference Include="..\CreanArchitecture.Domain\CreanArchitecture.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
