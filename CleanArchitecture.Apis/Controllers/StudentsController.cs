@@ -1,4 +1,6 @@
 ﻿using CreanArchitecture.Application.Feacture.StudentFeacture.Commands.CreateStudent;
+using CreanArchitecture.Application.Feacture.StudentFeacture.Commands.DeleteStudent;
+using CreanArchitecture.Application.Feacture.StudentFeacture.Commands.UpdateStudent;
 using CreanArchitecture.Application.Feacture.StudentFeacture.Queries.GetAllStudent;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,58 +10,75 @@ namespace CleanArchitecture.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentsController : ControllerBase
+   public class StudentsController : ControllerBase
+{
+    private readonly IStudentGetAllQuery _query;
+    private readonly ICreateStudentCommand _createStudentCommand;
+    private readonly IUpdateStudentCommand _updateStudentCommand;
+    private readonly IDeleteStudentCommand _deleteStudentCommand;
+
+    public StudentsController(
+        IStudentGetAllQuery query,
+        ICreateStudentCommand createStudentCommand,
+        IUpdateStudentCommand updateStudentCommand,
+        IDeleteStudentCommand deleteStudentCommand)
     {
-        private readonly IStudentGetAllQuery _query;
-        public StudentsController(IStudentGetAllQuery query)
+        _query = query;
+        _createStudentCommand = createStudentCommand;
+        _updateStudentCommand = updateStudentCommand;
+        _deleteStudentCommand = deleteStudentCommand;
+    }
+
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+        var result = _query.Execute();
+
+        if (result != null)
         {
-             _query = query;
+            return Ok(result);
         }
-        // GET: api/<StudentsController>
-        [HttpGet]
-        public IActionResult Get()
+        else
         {
-            var result = _query.Execute(); // Ejecutar la consulta y obtener el resultado
 
-            if (result != null)
-            {
-                // Suponiendo que result es una lista de objetos StudentQueryDto,
-                // podrías devolver Ok con los datos obtenidos.
-                return Ok(result);
-            }
-            else
-            {
-                // Manejar otro caso si result es null o no se puede convertir a IActionResult.
-                return NotFound(); // O podrías devolver BadRequest() u otro resultado según sea necesario.
-            }
-        }
-
-
-        // GET api/<StudentsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<StudentsController>
-        [HttpPost]
-        public  IActionResult Post([FromBody] StudentDto dto, [FromServices] CreateStudentCommand command)
-        {
-            command.Execute(dto);
-            return Ok();
-        }
-
-        // PUT api/<StudentsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<StudentsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return NotFound();
         }
     }
+
+    [HttpPost]
+    public IActionResult CreateStudent([FromBody] StudentDto dto)
+    {
+        var created = _createStudentCommand.Execute(dto);
+        if (created != null)
+        {
+            return  Ok();
+        }
+        return BadRequest();
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult UpdateStudent(int id, [FromBody] UpdateStudentDto dto)
+    {
+        var updated = _updateStudentCommand.Execute(dto);
+        if (updated != null)
+        {
+            return Ok(updated);
+        }
+        return NotFound();
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteStudent(int id)
+    {
+        var deleted = _deleteStudentCommand.Execute(id);
+        if (deleted !=null)
+        {
+            return NoContent();
+        }
+        return NotFound();
+    }
+
+ 
 }
+}
+

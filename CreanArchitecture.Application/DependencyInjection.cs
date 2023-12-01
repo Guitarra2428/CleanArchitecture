@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using CreanArchitecture.Application.Feacture.StudentFeacture.Commands.CreateStudent;
+using CreanArchitecture.Application.Feacture.StudentFeacture.Commands.DeleteStudent;
+using CreanArchitecture.Application.Feacture.StudentFeacture.Commands.UpdateStudent;
 using CreanArchitecture.Application.Feacture.StudentFeacture.Queries.GetAllStudent;
 using CreanArchitecture.Application.Interface.IRepository;
 using CreanArchitecture.Application.Mapper;
@@ -24,9 +26,12 @@ namespace CreanArchitecture.Application
 
             services.AddSingleton(mapper.CreateMapper());
              services.AddTransient<CreateStudentCommand>();
-           //  services.AddTransient<StudentGetAllQuery>();
-            services.AddScoped<IStudentGetAllQuery, StudentGetAllQuery>();        
-            // services.AddTransient<ICreateStudentCommand, CreateStudentCommand>();
+             services.AddTransient<IDeleteStudentCommand, DeleteStudentCommand>();
+         
+            services.AddTransient<IStudentGetAllQuery, StudentGetAllQuery>();
+            services.AddTransient< IUpdateStudentCommand , UpdateStudentCommand > ();
+            
+           services.AddTransient<ICreateStudentCommand, CreateStudentCommand>();
             return services;
         }
     }

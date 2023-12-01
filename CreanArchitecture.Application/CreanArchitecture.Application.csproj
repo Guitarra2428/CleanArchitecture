@@ -13,8 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Feacture\StudentFeacture\Commands\DeleteStudent\" />
-    <Folder Include="Feacture\StudentFeacture\Commands\UpdateStudent\" />
     <Folder Include="Mapper\" />
   </ItemGroup>
 

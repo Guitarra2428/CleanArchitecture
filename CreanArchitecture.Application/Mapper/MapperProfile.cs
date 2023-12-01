@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CreanArchitecture.Application.Feacture.StudentFeacture.Commands.CreateStudent;
+using CreanArchitecture.Application.Feacture.StudentFeacture.Commands.UpdateStudent;
 using CreanArchitecture.Application.Feacture.StudentFeacture.Queries.GetAllStudent;
 using CreanArchitecture.Domain.Entyties;
 using System;
@@ -16,6 +17,7 @@ namespace CreanArchitecture.Application.Mapper
         {
             CreateMap<Student , StudentDto>().ReverseMap();
             CreateMap<Student , StudentQueryDto>().ReverseMap();
+            CreateMap<Student , UpdateStudentDto>().ReverseMap();
         }
     }
 }

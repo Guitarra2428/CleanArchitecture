@@ -26,16 +26,7 @@ namespace CleanArchitecture.Percistence.Repository.EstudentsRepository
         }
 
       
-        public async Task DeleteAsync(int id)
-        {
-            var delete = await _applicationDbContext.Students.FindAsync(id);
-            if (delete != null)
-            {
-                 _applicationDbContext.Students.Remove(delete);
-                await _applicationDbContext.SaveAsync();
-            }
-                      
-        }
+      
 
 
         public async Task<ICollection<Student>> GetAllAsync()
@@ -58,6 +49,17 @@ namespace CleanArchitecture.Percistence.Repository.EstudentsRepository
         public async Task UpdateAsync(Student student)
         {
             _applicationDbContext.Students.Update(student);
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var delete = await _applicationDbContext.Students.FindAsync(id);
+            if (delete != null)
+            {
+                _applicationDbContext.Students.Remove(delete);
+                await _applicationDbContext.SaveAsync();
+            }
+             return false;
         }
     }
 }
