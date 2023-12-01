@@ -12,7 +12,7 @@ namespace CleanArchitecture.WebApi.Controllers
     [ApiController]
    public class StudentsController : ControllerBase
 {
-    private readonly IStudentGetAllQuery _query;
+    private readonly IStudentGetAllQuery _studentGetAllQuery;
     private readonly ICreateStudentCommand _createStudentCommand;
     private readonly IUpdateStudentCommand _updateStudentCommand;
     private readonly IDeleteStudentCommand _deleteStudentCommand;
@@ -23,7 +23,7 @@ namespace CleanArchitecture.WebApi.Controllers
         IUpdateStudentCommand updateStudentCommand,
         IDeleteStudentCommand deleteStudentCommand)
     {
-        _query = query;
+            _studentGetAllQuery = query;
         _createStudentCommand = createStudentCommand;
         _updateStudentCommand = updateStudentCommand;
         _deleteStudentCommand = deleteStudentCommand;
@@ -32,7 +32,7 @@ namespace CleanArchitecture.WebApi.Controllers
     [HttpGet]
     public IActionResult GetAll()
     {
-        var result = _query.Execute();
+        var result = _studentGetAllQuery.Execute();
 
         if (result != null)
         {
@@ -40,7 +40,6 @@ namespace CleanArchitecture.WebApi.Controllers
         }
         else
         {
-
             return NotFound();
         }
     }
@@ -56,8 +55,8 @@ namespace CleanArchitecture.WebApi.Controllers
         return BadRequest();
     }
 
-    [HttpPut("{id}")]
-    public IActionResult UpdateStudent(int id, [FromBody] UpdateStudentDto dto)
+    [HttpPut]
+    public IActionResult UpdateStudent([FromBody] UpdateStudentDto dto)
     {
         var updated = _updateStudentCommand.Execute(dto);
         if (updated != null)
